@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return redirect()->route('tasks.index');
-    return 'Welcome';
+    return redirect()->route('tasks.index');
+    // return 'Welcome';
 });
 
 Route::get('/tasks', function () {
