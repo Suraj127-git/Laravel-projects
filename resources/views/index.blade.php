@@ -22,7 +22,6 @@
               <label for="exampleInputPassword1">Enter amount</label>
               <input type="number" name="amount" class="form-control" id="exampleInputPassword1">
             </div>
-           
             <button type="submit" class="btn btn-primary btn-block">Submit</button>
           </form>
     </div>
@@ -44,5 +43,11 @@
       </form>
     </div>
     @endif
+    <div class="container tex-center mx-auto">
+      <form action="/paypal" method="post" class="text-center mx-auto mt-">
+        @csrf
+        <button type="submit">Pay with payPal</button>
+      </form>
+    </div>
 </body>
 </html>
