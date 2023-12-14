@@ -12,7 +12,7 @@
         <div class="text-center">
         <img src="https://img.favpng.com/22/17/14/coffee-cup-breakfast-cafe-png-favpng-wum4UMesrHMdFxfe11NikwYbu.jpg" class="img-fluid" style="height:200px">
         </div>
-        <form method="post" action="/payment">
+        <form method="post" action="{{ route('razorpay_payment') }}">
           @csrf
             <div class="form-group">
               <label for="exampleInputEmail1">Enter name</label>
@@ -27,7 +27,8 @@
     </div>
     @if(Session::has('data'))
     <div class="container tex-center mx-auto">
-    <form action="/pay" method="POST" class="text-center mx-auto mt-5">
+    <form action="{{ route('razorpay_success') }}" method="POST" class="text-center mx-auto mt-5">
+      @csrf
       <script
           src="https://checkout.razorpay.com/v1/checkout.js"
           data-key={{ env('Razorpay_Api_Id') }}
@@ -43,11 +44,14 @@
       </form>
     </div>
     @endif
+
+    @if(Session::has('data'))
     <div class="container tex-center mx-auto">
-      <form action="/paypal" method="post" class="text-center mx-auto mt-">
+      <form action="{{ route('paypal_payment') }}" method="post" class="text-center mx-auto mt-">
         @csrf
         <button type="submit">Pay with payPal</button>
       </form>
     </div>
+    @endif
 </body>
 </html>

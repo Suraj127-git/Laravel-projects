@@ -7,21 +7,10 @@ use Monolog\SignalHandler;
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
 
-class MainController extends Controller
+class RazorpayController extends Controller
 {
-    public function index(){
-        return view('index');
-    }
+    public function payment_request(Request $request){
 
-    public function success(){
-        return view('success');
-    }
-
-    public function error(){
-        return view('error');
-    }
-
-    public function payment(Request $request){
         $name = $request->input('name');
         $amount = $request->input('amount');
 
@@ -48,11 +37,13 @@ class MainController extends Controller
     }
 
 
-    public function pay(Request $request){
+    public function payment_response(Request $request){
+
         $data = $request->all();
         $user = Payment::where('payment_id', $data['razorpay_order_id'])->first();
         $user->payment_done = true;
         $user->razorpay_id = $data['razorpay_payment_id'];
+        $user->payment_mode = "RazorPay";
         $api = new Api(env('Razorpay_Api_Id'), env('Razorpay_Api_Secret'));
         
         try{
@@ -70,7 +61,7 @@ class MainController extends Controller
 
         if($success){
             $user->save();
-            return redirect('/success');
+            return redirect()->route('success');
         }else{
 
             return redirect()->route('error');
