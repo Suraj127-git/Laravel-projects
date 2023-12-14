@@ -13,52 +13,35 @@ class PaypalController extends Controller
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
-        $response = $provider->createOrder([
+        $data_array = [
             "intent" => "CAPTURE",
-            "purchase_units" => [[
-                "reference_id" => "test_ref_id1",
-                "amount" => [
-                    "value" => "100.00",
-                    "currency_code" => "USD"
+            "purchase_units" => [
+                [
+                    "amount" => [
+                        "currency_code" => "USD",
+                        "value" => "101.00"
+                    ]
                 ]
-            ]],
+            ],
             "application_context" => [
-                 "cancel_url" => "http://127.0.0.1:8000/success",
-                 "return_url" => "http://127.0.0.1:8000/error"
-            ] 
-        ]);
-        // $response = $provider->createOrder([
-        //     "intent" => "CAPTURE",
-        //     "payment_source" => [
-        //         "paypal" => [
-        //             "experience_context" => [
-        //                 "return_url" => route('success'),
-        //                 "cancel_url" => route('error')
-        //     ]]],
-        //     "purchase_units" => [
-        //         [
-        //             "reference_id" => "d9f80740-38f0-11e8-b467-0ed5f89f718b",
-        //             "amount" => [
-        //                 "currency_code" => "USD",
-        //                 "value" => "123"
-        //             ]
-        //         ]
-        //     ]
-        // ]);
-        dd($response);
+                "return_url" => route('paypal_success'),
+                "cancel_url" => route('error')
+            ]
+        ];
+        $response = $provider->createOrder($data_array);
+        // dd($response);
         if(isset($response['id']) && $response['id']!=null) {
             foreach($response['links'] as $link) {
                 if($link['rel'] === 'approve') {
-
                     $data = array(
-                        // 'order_id' => $orderId,
+                        'order_id' => $response['id'],
                         'amount' => $request->price
                     );
-            
                     // session(['order_id' => $orderId]);
                     // session(['amount' => $amount]);
-                   
-                    return redirect()->route('home')->with('data', $data);
+                    // return redirect()->route('home')->with('data', $data);
+                    return redirect()->away($link['href']);
+
                 }
             }
         } else {

@@ -53,5 +53,23 @@
       </form>
     </div>
     @endif
+
+    @if(Session::has('data'))
+    <div class="container tex-center mx-auto">
+      <form action="{{ route('stripe_payment') }}" method="post" class="text-center mx-auto mt-">
+        @csrf
+        <button type="submit">Pay with Stripe</button>
+      </form>
+    </div>
+    @endif
+
+    @if(Session::has('data'))
+    <div class="container tex-center mx-auto">
+      <form action="{{ route('instamojo_payment') }}" method="post" class="text-center mx-auto mt-">
+        @csrf
+        <button type="submit">Pay with Instamojo</button>
+      </form>
+    </div>
+    @endif
 </body>
 </html>

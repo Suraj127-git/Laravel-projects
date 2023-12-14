@@ -3,6 +3,8 @@
 use App\Http\Controllers\RedirectController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\RazorpayController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\InstamojoController;
 use Illuminate\Support\Facades\Route;
 
 //Redirect
@@ -16,6 +18,14 @@ Route::post('/razorpay_pay', [RazorpayController::class, 'payment_response'])->n
 
 //Paypal
 Route::post('/paypal_payment', [PaypalController::class, 'payment_request'])->name('paypal_payment');
-Route::post('/paypal_pay', [PaypalController::class, 'payment_response'])->name('paypal_success');
+Route::get('/paypal_pay', [PaypalController::class, 'payment_response'])->name('paypal_success');
+
+//Stripe
+Route::post('/stripe_payment', [StripeController::class, 'payment_request'])->name('stripe_payment');
+Route::get('/stripe_pay', [StripeController::class, 'payment_response'])->name('stripe_success');
+
+//Instamojo
+Route::post('instamojo_payment', [InstamojoController::class, 'payment_request'])->name('instamojo_payment');
+Route::get('instamojo_pay', [InstamojoController::class, 'payment_response'])->name('instamojo_success');
 
 ?>
