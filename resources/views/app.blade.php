@@ -42,7 +42,7 @@
 
   <div>
     <h2 class="mb-4 mt-4 text-2xl">Available Polls</h2>
-    @livewire('polls')
+    @livewire('poll')
   </div>
 </body>
 

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
-use App\Models\Poll as polling;
 use App\Models\Option;
 use Livewire\Component;
 
-class Polls extends Component
+class Poll extends Component
 {
     protected $listeners = [
         'pollCreated' => 'render'
@@ -14,10 +13,10 @@ class Polls extends Component
 
     public function render()
     {
-        $polls = polling::with('options.votes')
+        $poll_data = \App\Models\Poll::with('options.votes')
             ->latest()->get();
 
-        return view('livewire.polls', ['polls' => $polls]);
+        return view('livewire.poll', ['poll_data' => $poll_data]);
     }
 
     public function vote(Option $option)

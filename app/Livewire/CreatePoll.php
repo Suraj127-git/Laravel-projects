@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
-use App\Models\Poll as PollModel;
+use App\Models\Poll;
 use Livewire\Component;
 
 class CreatePoll extends Component
@@ -41,11 +41,11 @@ class CreatePoll extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function addPoll()
+    public function createPoll()
     {
         $this->validate();
 
-        PollModel::create([
+        Poll::create([
             'title' => $this->title
         ])->options()->createMany(
                 collect($this->options)
@@ -53,6 +53,6 @@ class CreatePoll extends Component
                     ->all()
             );
         $this->reset(['title', 'options']);
-        $this->emit('pollCreated');
+        $this->dispatch('pollCreated');
     }
 }
