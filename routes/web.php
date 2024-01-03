@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChatGptIndexController;
+use App\Http\Controllers\ChatGptStoreController;
+use App\Http\Controllers\ChatGptDestoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/chat/{id?}', ChatGptIndexController::class)->name('chat.show');
+    Route::post('/chat/{id?}', ChatGptStoreController::class)->name('chat.store');
+    Route::delete('/chat/{chat}', ChatGptDestoryController::class)->name('chat.destroy');
 });
 
 require __DIR__.'/auth.php';
